@@ -1,8 +1,7 @@
 <h2>Scrapbox上にリストしたなぞなぞ問題からランダムに選択</h2>
 
-aaa
-
-<pre style="background-color:#f00;line-height:150%;">
+<div style="background-color:#f00;line-height:150%;">
+  <pre>
 % episoq
 旅行をキャンセルしたのは?
 営業時間終了で入れなかったのは?
@@ -19,4 +18,5 @@ aaa
 自転車安く借りて学会行ったのは?
 魚がステーキみたいだったのは?
 %
-</pre>
+  </pre>
+</div>
