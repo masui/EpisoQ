@@ -1,8 +1,9 @@
 <h2>Scrapbox上にリストしたなぞなぞ問題からランダムに選択</h2>
 
 <ul>
-  <li><a href="https://scrapbox.io/masui/%E7%9C%8C%E5%90%8D%E3%81%AA%E3%81%9E%E3%81%AA%E3%81%9E">県名なぞなぞ</a>のような問題ページを用意しておく
-  <li><code>episoq</code>の出力を<a href="http://EpisoPass.com/easy.html">easy.html</a>にコピペして使う
+  <li><a href="https://scrapbox.io/masui/%E7%9C%8C%E5%90%8D%E3%81%AA%E3%81%9E%E3%81%AA%E3%81%9E">県名なぞなぞページ</a>などに問題プールを用意しておく
+  <li><code>episoq</code>でランダムに選択する
+  <li>結果を<a href="http://EpisoPass.com/easy.html">easy.html</a>にコピペして使う
 </ul>
 
 <pre>
