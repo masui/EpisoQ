@@ -1,0 +1,32 @@
+#!/usr/bin/ruby
+# coding: utf-8
+#
+# Scrapbox上にリストしたなぞなぞ問題から10問ランダムに選択
+#
+# % episoq masui 県名なぞなぞ 3
+# 右足を怪我したのは?
+# 自転車安く借りて学会行ったのは?
+# 魚がステーキみたいだったのは?
+# %
+#
+
+require 'net/https'
+require 'uri'
+
+project = ARGV[0] || 'masui'
+page = ARGV[1] || '県名なぞなぞ'
+n = ARGV[2] || 10
+
+api = "https://scrapbox.io/api/pages/#{project}/#{URI.encode(page)}/text"
+uri = URI.parse(api)
+res = Net::HTTP.get_response(uri)
+
+puts res.body.split(/\n/).select { |line|
+  line =~ /^ \S/
+}.collect { |s|
+  s.sub(/^\s/,'')
+}.shuffle[0...n.to_i]
+
+
+
+
