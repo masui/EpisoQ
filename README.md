@@ -1,6 +1,6 @@
 <h2>Scrapbox上にリストしたなぞなぞ問題からランダムに選択</h2>
 
-出力を<a href="http://EpisoPass.com/easy.html">easy.html</a>にコピペすると良い
+出力を<a href="http://EpisoPass.com/easy.html">easy.html</a>にコピペして使う
 
 <pre>
 % episoq
