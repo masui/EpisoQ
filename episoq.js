@@ -1,5 +1,6 @@
 javascript: (() => {
   const a = location.href.split('/');
+  if(a[2] != 'scrapbox.io') return;
   const project = a[3];
   const page = a[4];
   const url = `https://scrapbox.io/api/pages/${project}/${page}/text`;
