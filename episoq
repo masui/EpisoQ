@@ -12,21 +12,19 @@
 
 require 'net/https'
 require 'uri'
+require 'json'
 
 project = ARGV[0] || 'masui'
 page = ARGV[1] || '県名なぞなぞ'
 n = ARGV[2] || 10
+json = ARGV[3] || 'episopass.json'
 
-api = "https://scrapbox.io/api/pages/#{project}/#{URI.encode(page)}/text"
+api = "https://scrapbox.io/api/code/#{project}/#{URI.encode(page)}/#{json}"
 uri = URI.parse(api)
 res = Net::HTTP.get_response(uri)
 
-puts res.body.split(/\n/).select { |line|
-  line =~ /^ \S/
-}.collect { |s|
-  s.sub(/^\s/,'')
-}.shuffle[0...n.to_i]
+data = JSON.parse(res.body)
 
-
-
-
+puts data['questions'].shuffle[0...n.to_i]
+puts
+puts data['answers']
