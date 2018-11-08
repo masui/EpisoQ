@@ -25,6 +25,11 @@ res = Net::HTTP.get_response(uri)
 
 data = JSON.parse(res.body)
 
-puts data['questions'].shuffle[0...n.to_i]
-puts
-puts data['answers']
+url = "http://EpisoPass.com/easy.html?" +
+      "questions=#{data['questions'].shuffle[0...n.to_i].join(';')}" + "&" +
+      "answers=#{data['answers'].join(';')}"
+
+system "open '#{url}'"
+
+
+
