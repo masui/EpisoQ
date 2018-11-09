@@ -19,7 +19,7 @@ $(function(){
     let [name, value] = s.split('=')
     args[name] = decodeURIComponent(value)
   })
-  const codelist = args['code']
+  const codelist = args['qa']
 
   console.log('codelist', codelist)
 
@@ -27,4 +27,6 @@ $(function(){
     let urls = codelist.split(/,/)
     loadAllScripts(urls)
   }
+
+    alert(qa)
 })
