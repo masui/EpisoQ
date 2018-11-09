@@ -1,26 +1,25 @@
-function loadScript (qa) {
+function loadScript (url) {
   return new Promise((resolve) => {
       const script = document.createElement('script');
-      script.src = qa;
+      script.src = url;
       script.onload = resolve;
       document.body.appendChild(script);
   });
 }
 
-async function aaa(){
+async function openEpisoPassWindow(){
     questions = qa.questions;
     n = questions.length;
     while (n) {
         const i = Math.floor(Math.random() * n--);
         [questions[i], questions[n]] = [questions[n], questions[i]];
     }
-    //w = window.open();
     window.location.href = `http://EpisoPass.com/easy.html?questions=${qa.questions.slice(0,10).join(';')}&answers=${qa.answers.join(';')}`;
 }
 
-async function load (url) {
-    await loadScript(url);
-    await aaa();
+async function episoQ (qa) {
+    await loadScript(qa);
+    await openEpisoPassWindow();
 }
 
 $(function(){
@@ -31,6 +30,6 @@ $(function(){
     });
     const qa = args['qa'];
     if (qa) {
-	load(qa);
+	episoQ(qa);
     }
 });
