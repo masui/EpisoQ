@@ -1,3 +1,5 @@
+JSONデータに対するブックマークレットだが不要
+
 javascript: (() => {
   const a = location.href.split('/');
   if(a[2] != 'scrapbox.io') return;
@@ -19,12 +21,6 @@ javascript: (() => {
     }
   });
 })();
-
-
-      
-      w = window.open();
-      w.document.write("<pre>"+data.questions.slice(0,10).join("\n")+"</pre>");
-      w.document.write("<pre>"+data.answers.join("\n")+"</pre>");
 
 
 

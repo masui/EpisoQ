@@ -1,32 +1,32 @@
 #!/usr/bin/ruby
 # coding: utf-8
 #
-# Scrapbox上にリストしたなぞなぞ問題から10問ランダムに選択
+# Scrapbox上にリストしたなぞなぞ問題プールからランダムに問題を選択してeasy.htmlを開く
+# https://github.com/masui/EpisoQ/
+#
+# データ例: https://Scrapbox.io/masui/県名なぞなぞ
 #
 # % episoq masui 県名なぞなぞ 3
-# 右足を怪我したのは?
-# 自転車安く借りて学会行ったのは?
-# 魚がステーキみたいだったのは?
-# %
 #
 
 require 'net/https'
 require 'uri'
 require 'json'
 
-project = ARGV[0] || 'masui'
-page = ARGV[1] || '県名なぞなぞ'
-n = ARGV[2] || 10
-js = ARGV[3] || 'episopass.js'
+project = ARGV[0]    || 'masui'
+pagetitle = ARGV[1]  || '県名なぞなぞ'
+nquestions = ARGV[2] || 10
+js = ARGV[3]         || 'episopass.js'
 
-api = "https://scrapbox.io/api/code/#{project}/#{URI.encode(page)}/#{js}"
+api = "https://scrapbox.io/api/code/#{project}/#{URI.encode(pagetitle)}/#{js}"
 uri = URI.parse(api)
 res = Net::HTTP.get_response(uri)
 
-eval "$" + res.body
+eval "$" + res.body # qa = { "questions":[...] }
 
 url = "http://EpisoPass.com/easy.html?" +
-      "questions=#{$qa[:questions].shuffle[0...n.to_i].join(';')}" + "&" +
+      "questions=#{$qa[:questions].shuffle[0...nquestions.to_i].join(';')}" +
+      "&" +
       "answers=#{$qa[:answers].join(';')}"
 
 system "open '#{url}'"
