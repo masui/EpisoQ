@@ -17,19 +17,18 @@ require 'json'
 project = ARGV[0] || 'masui'
 page = ARGV[1] || '県名なぞなぞ'
 n = ARGV[2] || 10
-json = ARGV[3] || 'episopass.json'
+js = ARGV[3] || 'episopass.js'
 
-api = "https://scrapbox.io/api/code/#{project}/#{URI.encode(page)}/#{json}"
+api = "https://scrapbox.io/api/code/#{project}/#{URI.encode(page)}/#{js}"
 uri = URI.parse(api)
 res = Net::HTTP.get_response(uri)
 
-data = JSON.parse(res.body)
+eval "$" + res.body
 
 url = "http://EpisoPass.com/easy.html?" +
-      "questions=#{data['questions'].shuffle[0...n.to_i].join(';')}" + "&" +
-      "answers=#{data['answers'].join(';')}"
+      "questions=#{$qa[:questions].shuffle[0...n.to_i].join(';')}" + "&" +
+      "answers=#{$qa[:answers].join(';')}"
 
 system "open '#{url}'"
-
 
 
