@@ -24,7 +24,8 @@ $(function(){
   console.log('codelist', codelist)
 
   if (codelist) {
-    let urls = codelist.split(/,/)
+      let urls = codelist.split(/,/)
+      alert(urls)
     loadAllScripts(urls)
   }
 
