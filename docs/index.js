@@ -14,8 +14,8 @@ async function aaa(){
         const i = Math.floor(Math.random() * n--);
         [questions[i], questions[n]] = [questions[n], questions[i]];
     }
-    w = window.open();
-    w.location.href = `http://EpisoPass.com/easy.html?questions=${qa.questions.slice(0,10).join(';')}&answers=${qa.answers.join(';')}`;
+    //w = window.open();
+    window.location.href = `http://EpisoPass.com/easy.html?questions=${qa.questions.slice(0,10).join(';')}&answers=${qa.answers.join(';')}`;
 }
 
 async function load (url) {
