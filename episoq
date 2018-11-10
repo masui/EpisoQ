@@ -8,27 +8,10 @@
 #
 # % episoq masui 県名なぞなぞ 3
 #
-
-require 'net/https'
-require 'uri'
-require 'json'
-
 project = ARGV[0]    || 'masui'
 pagetitle = ARGV[1]  || '県名なぞなぞ'
 nquestions = ARGV[2] || 10
 js = ARGV[3]         || 'episopass.js'
 
-api = "https://scrapbox.io/api/code/#{project}/#{URI.encode(pagetitle)}/#{js}"
-uri = URI.parse(api)
-res = Net::HTTP.get_response(uri)
-
-eval "$" + res.body # qa = { "questions":[...] }
-
-url = "http://EpisoPass.com/easy.html?" +
-      "questions=#{$qa[:questions].shuffle[0...nquestions.to_i].join(';')}" +
-      "&" +
-      "answers=#{$qa[:answers].join(';')}"
-
+url = "https://masui.github.io/EpisoQ/?qa=https://scrapbox.io/api/code/#{project}/#{pagetitle}/#{js}"
 system "open '#{url}'"
-
-
