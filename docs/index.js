@@ -22,7 +22,7 @@ async function episoQ (qa) {
     await openEpisoPassWindow();
 }
 
-$(function(){
+function ready () {
     const args = {};
     document.location.search.substring(1).split('&').forEach((s) => {
 	let [name, value] = s.split('=');
@@ -32,4 +32,10 @@ $(function(){
     if (qa) {
 	episoQ(qa);
     }
-});
+}
+
+if (document.readyState !== 'loading') {
+    ready();
+} else {
+    document.addEventListener('DOMContentLoaded', ready);
+}
