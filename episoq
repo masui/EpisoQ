@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 # coding: utf-8
 #
 # Scrapbox上にリストしたなぞなぞ問題プールからランダムに問題を選択してeasy.htmlを開く
@@ -14,4 +14,7 @@ nquestions = ARGV[2] || 10
 js = ARGV[3]         || 'episopass.js'
 
 url = "https://masui.github.io/EpisoQ/?qa=https://scrapbox.io/api/code/#{project}/#{pagetitle}/#{js}"
-system "open '#{url}'"
+
+open = "open"
+open = "xdg-open" if `which xdg-open` != ''
+system "#{open} '#{url}'"
