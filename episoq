@@ -13,7 +13,7 @@ pagetitle = ARGV[1]  || '県名なぞなぞ'
 nquestions = ARGV[2] || 10
 js = ARGV[3]         || 'episopass.js'
 
-url = "https://masui.github.io/EpisoQ/?qa=https://scrapbox.io/api/code/#{project}/#{pagetitle}/#{js}"
+url = "https://masui.github.io/EpisoQ/?qa=https://scrapbox.io/api/code/#{project}/#{pagetitle}/#{js}&n=#{nquestions}"
 
 open = "open"
 open = "xdg-open" if `which xdg-open` != ''
