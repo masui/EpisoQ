@@ -1,0 +1,29 @@
+{
+    "name": "episoq",
+    "version": "0.0.2",
+    "description": "Create EpisoPass questions",
+    "directories": {
+	"doc": "docs"
+    },
+    "scripts": {
+	"test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+	"type": "git",
+	"url": "git+https://github.com/masui/EpisoQ.git"
+    },
+    "keywords": [
+	"EpisoPass",
+	"Password"
+    ],
+    "author": "Toshiyuki Masui <masui@pitecan.com> (http://masui.org/)",
+    "license": "MIT",
+    "bugs": {
+	"url": "https://github.com/masui/EpisoQ/issues"
+    },
+    "homepage": "https://github.com/masui/EpisoQ",
+    "bin": {
+	"episoq": "bin/episoq"
+    },
+    "main": "index.js"
+}
