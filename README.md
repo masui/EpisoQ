@@ -12,5 +12,9 @@
   <ul>
     <li><a href="https://masui.github.io/EpisoQ/?qa=https://scrapbox.io/api/code/masui/県名なぞなぞ/episopass.js">EpisoPass問題生成ページを開く</a></li>
   </ul>
+  <li>npmでインストールできるようにした
+  <ul>
+    <li><code>% npm install -g episoq</code></li>
+  </ul>
 </ul>
 
