@@ -1,0 +1,30 @@
+#!//usr/bin/env node
+//
+// coding: utf-8
+//
+// Scrapbox上にリストしたなぞなぞ問題プールからランダムに問題を選択して問題編集画面を開く
+// https://github.com/masui/EpisoQ/ を利用する
+//
+// データ例: https://Scrapbox.io/masui/県名なぞなぞ
+//
+// % episoq masui 県名なぞなぞ 5
+//
+
+const exec = require('child_process').exec;
+
+var project = process.argv[2]    || 'masui'
+var pagetitle = process.argv[3]  || '県名なぞなぞ'
+var nquestions = process.argv[4] || 10
+var js = process.argv[5]         || 'episopass.js'
+
+var url = `https://masui.github.io/EpisoQ/?qa=https://scrapbox.io/api/code/${project}/${pagetitle}/${js}&n=${nquestions}`
+
+var open = "open"
+
+exec('which xdg-open', (err, stdout, stderr) => {
+    if(! err){
+	open = "xdg-open" // X環境では xdg-open を使う
+    }
+    exec(`${open} '${url}'`)
+});
+
