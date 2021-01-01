@@ -13,6 +13,9 @@ javascript:(function(){
   }
 
   async function openEpisoPassWindow(){
+    if(qa.nquestions){
+      nquestions = qa.nquestions;
+    }
     questions = qa.questions;
     n = questions.length;
     while (n) {

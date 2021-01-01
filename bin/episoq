@@ -64,7 +64,7 @@ fs.stat(configfile, (error, stats) => {
 	if(! err){
 	    open = "xdg-open" // X環境では xdg-open を使う
 	}
-	exec(`${open} '${url}'`)
+	exec(`${open} '${encodeURI(url)}'`)
     });
 })
 
