@@ -1,6 +1,6 @@
 {
    "name": "episoq",
-   "version": "0.0.5",
+   "version": "0.0.6",
    "description": "Create EpisoPass questions",
    "directories": {
       "doc": "docs"
@@ -25,5 +25,8 @@
    "bin": {
       "episoq": "bin/episoq"
    },
-   "main": "index.js"
+   "main": "index.js",
+   "dependencies": {
+      "episoq": "^0.0.6"
+   }
 }

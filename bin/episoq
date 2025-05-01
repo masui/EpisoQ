@@ -1,70 +1,28 @@
-#!//usr/bin/env node
-//
-// coding: utf-8
-//
-// Scrapbox上にリストしたなぞなぞ問題プールからランダムに問題を選択して問題編集画面を開く
-// https://github.com/masui/EpisoQ/ を利用する
-//
-// データ例: https://Scrapbox.io/masui/県名なぞなぞ
-//
-// % episoq [masui [県名なぞなぞ [episopass.js [5]]]]
-//
-// パラメタは ~/.episoq.json に保存する
-//
+#!/usr/bin/env ruby
+#
+# Scrapbox上にリストしたなぞなぞ問題プールからランダムに問題を選択して問題編集画面を開く
+#
+# データ例: https://Scrapbox.io/masui/県名なぞなぞ
+#
+# % episoq [10 [masui [県名なぞなぞ [episopass.js]]]]
+#
 
-const exec = require('child_process').exec;
-const path = require("path")
-const fs =   require('fs');
+require 'net/http'
+require 'json'
+require 'uri'
 
-const home = process.env["HOME"]
-const configfile = `${home}/.episoq.json`
+n = ARGV[0]         || 10               # 問題の数
+project = ARGV[1]   || 'masui'
+pagetitle = ARGV[2] || '県名なぞなぞ'
+json = ARGV[3]      || 'episopass.json'
 
-// 引数取得
-var project =    process.argv[2]
-var pagetitle =  process.argv[3]
-var js =         process.argv[4]
-var nquestions = process.argv[5]
+url = URI::DEFAULT_PARSER.escape("https://scrapbox.io/api/code/#{project}/#{pagetitle}/#{json}")
+uri = URI.parse(url)
 
-var json = {};
+# JSONデータを取得
+response = Net::HTTP.get_response(uri)
+data = JSON.parse(response.body)
 
-fs.stat(configfile, (error, stats) => {
-    var text = "{}"
-    if (error) {
-	if (error.code === 'ENOENT') {
-	    // console.log('ファイル・ディレクトリは存在しません。');
-	} else {
-	    console.log(error);
-	}
-    }
-    else {
-	// console.log('ファイル・ディレクトリは存在します。');
-	text = fs.readFileSync(configfile, 'utf8');
-    }
-
-    var json = {}
-    try {
-	json = JSON.parse(text)
-    }
-    catch(err){
-	console.log("json read error")
-    }
-    
-    json.project =    project    || json.project    || 'masui'
-    json.pagetitle =  pagetitle  || json.pagetitle  || '県名なぞなぞ'
-    json.js =         js         || json.js         || 'episopass.js'
-    json.nquestions = nquestions || json.nquestions || 10
-    
-    fs.writeFileSync(configfile, JSON.stringify(json))
-    
-    var url = `https://masui.github.io/EpisoQ/?qa=https://scrapbox.io/api/code/${json.project}/${json.pagetitle}/${json.js}&n=${json.nquestions}`
-    
-    var open = "open"
-    
-    exec('which xdg-open', (err, stdout, stderr) => {
-	if(! err){
-	    open = "xdg-open" // X環境では xdg-open を使う
-	}
-	exec(`${open} '${encodeURI(url)}'`)
-    });
-})
-
+qlist = data['questions'].sample(n.to_i).join(';') # 問題選択
+alist = data['answers'].join(';') # 答の候補をすべてリスト
+system "open 'http://episopass.com/?questions=#{qlist}&answers=#{alist}&n=#{n}'"
