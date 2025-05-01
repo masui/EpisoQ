@@ -19,10 +19,10 @@ json = ARGV[3]      || 'episopass.json'
 url = URI::DEFAULT_PARSER.escape("https://scrapbox.io/api/code/#{project}/#{pagetitle}/#{json}")
 uri = URI.parse(url)
 
-# JSONデータを取得
+# Q/AのJSONデータを取得
 response = Net::HTTP.get_response(uri)
 data = JSON.parse(response.body)
 
-qlist = data['questions'].sample(n.to_i).join(';') # 問題選択
+qlist = data['questions'].sample(n.to_i).join(';') # 問題リストからランダムにn個選択
 alist = data['answers'].join(';') # 答の候補をすべてリスト
 system "open 'http://episopass.com/?questions=#{qlist}&answers=#{alist}&n=#{n}'"
