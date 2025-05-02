@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+#
+# Scrapbox上にリストしたなぞなぞ問題プールからランダムに問題を選択して問題編集画面を開く
+#
+# データ例: https://Scrapbox.io/masui/県名なぞなぞ
+#
+# % episoq [10 [masui [県名なぞなぞ [episopass.js]]]]
+#
+
+require 'net/http'
+require 'json'
+require 'uri'
+
+n = ARGV[0]         || 10               # 問題の数
+project = ARGV[1]   || 'masui'
+pagetitle = ARGV[2] || '県名なぞなぞ'
+json = ARGV[3]      || 'episopass.json'
+
+url = URI::DEFAULT_PARSER.escape("https://scrapbox.io/api/code/#{project}/#{pagetitle}/#{json}")
+uri = URI.parse(url)
+
+# Q/AのJSONデータを取得
+response = Net::HTTP.get_response(uri)
+data = JSON.parse(response.body)
+
+qlist = data['questions'].sample(n.to_i).join(';') # 問題リストからランダムにn個選択
+alist = data['answers'].join(';') # 答の候補をすべてリスト
+system "open 'http://episopass.com/?questions=#{qlist}&answers=#{alist}&n=#{n}'"

@@ -1,28 +1,52 @@
 #!/usr/bin/env ruby
 #
-# Scrapbox上にリストしたなぞなぞ問題プールからランダムに問題を選択して問題編集画面を開く
+# なぞなぞ問題プールからランダムに問題を選択して問題編集画面を開く
 #
-# データ例: https://Scrapbox.io/masui/県名なぞなぞ
+# データ例: https://Scrapbox.io/masui-episoq-kenmei
 #
-# % episoq [10 [masui [県名なぞなぞ [episopass.js]]]]
+# % episoq [-n 10] [-t 答] [masui-episoq-kenmei]
 #
 
 require 'net/http'
 require 'json'
 require 'uri'
 
-n = ARGV[0]         || 10               # 問題の数
-project = ARGV[1]   || 'masui'
-pagetitle = ARGV[2] || '県名なぞなぞ'
-json = ARGV[3]      || 'episopass.json'
+project = 'masui-episoq-kenmei'
+n = 10
+qtitle = '答'
 
-url = URI::DEFAULT_PARSER.escape("https://scrapbox.io/api/code/#{project}/#{pagetitle}/#{json}")
-uri = URI.parse(url)
+while ARGV.length > 0
+  arg = ARGV.shift
+  if arg == '-n'
+    n = ARGV.shift.to_i
+  elsif arg == '-t'
+    qtitle = ARGV.shift
+  elsif arg == '-h'
+    STDERR.puts "% episoq [-n 問題数] [-t 問題ページ] [プロジェクト]"
+    exit
+  else
+    project = arg
+  end
+end
 
-# Q/AのJSONデータを取得
-response = Net::HTTP.get_response(uri)
-data = JSON.parse(response.body)
+# ピンどめされてないページのリストを取得
+url = URI("https://scrapbox.io/api/pages/#{project}")
+response = Net::HTTP.get(url)
+data = JSON.parse(response)
+titles = data['pages'].select { |page| page['pin']==0 }.collect { |page| page['title'] }
 
-qlist = data['questions'].sample(n.to_i).join(';') # 問題リストからランダムにn個選択
-alist = data['answers'].join(';') # 答の候補をすべてリスト
+# 問題リストからランダムにn個選択
+questions = titles.sample(n)
+
+# 答データを取得
+title = URI.encode_www_form_component(qtitle)
+url = URI("https://scrapbox.io/api/pages/#{project}/#{title}/text")
+response = Net::HTTP.get(url).force_encoding('UTF-8') # UTF-8を指定しないとASCII-8BITになってしまう
+
+answers = response.split[1..]
+
+qlist = questions.join(';') # 問題リスト
+alist = answers.join(';')   # 答の候補のリスト
+
+# EpisoPass問題作成ページを開く
 system "open 'http://episopass.com/?questions=#{qlist}&answers=#{alist}&n=#{n}'"
